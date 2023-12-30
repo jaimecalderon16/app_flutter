@@ -15,18 +15,18 @@ class SpecialOffers extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SectionTitle(
-            title: "Special for you",
+            title: 'Explore',
             press: () {},
           ),
         ),
         SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
+          scrollDirection: Axis.vertical,
+          child: Column(
             children: [
               SpecialOfferCard(
                 image: "assets/images/Image Banner 2.png",
                 category: "Smartphone",
-                numOfBrands: 18,
+                numOfBrands: 20,
                 press: () {
                   Navigator.pushNamed(context, ProductsScreen.routeName);
                 },
@@ -64,19 +64,22 @@ class SpecialOfferCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20),
+      padding: const EdgeInsets.all(15),
       child: GestureDetector(
         onTap: press,
-        child: SizedBox(
-          width: 242,
-          height: 100,
+        child: Expanded(
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(17),
             child: Stack(
               children: [
-                Image.asset(
+                ColorFiltered(colorFilter: ColorFilter.mode(
+                 Colors.black.withOpacity(0.5),  // Ajusta el valor de opacidad según sea necesario
+                  BlendMode.srcOver,
+                ), 
+                child: Image.asset(
                   image,
                   fit: BoxFit.cover,
+                )
                 ),
                 Container(
                   decoration: const BoxDecoration(
@@ -104,7 +107,7 @@ class SpecialOfferCard extends StatelessWidget {
                         TextSpan(
                           text: "$category\n",
                           style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: 23,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

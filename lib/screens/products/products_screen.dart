@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/components/product_card.dart';
-import 'package:shop_app/models/Product.dart';
-
-import '../details/details_screen.dart';
+import 'package:shop_app/screens/home/components/card_service.dart';
+import 'package:shop_app/screens/home/components/location_field.dart';
+import 'package:shop_app/screens/home/components/date_field.dart';
+import 'package:shop_app/screens/home/components/time_field.dart';
+import 'package:shop_app/screens/home/components/numeric_filed_buttoms.dart';
 
 class ProductsScreen extends StatelessWidget {
   const ProductsScreen({super.key});
@@ -13,28 +14,55 @@ class ProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Products"),
+        toolbarHeight: 70,
+        backgroundColor: const Color(0xFFF7C5CC),
+        centerTitle: true,
+        title: const Text("Secure Your Spot!", 
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 25,
+        ),),
       ),
-      body: SafeArea(
+      body: const SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: GridView.builder(
-            itemCount: demoProducts.length,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
-              childAspectRatio: 0.7,
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 16,
-            ),
-            itemBuilder: (context, index) => ProductCard(
-              product: demoProducts[index],
-              onPress: () => Navigator.pushNamed(
-                context,
-                DetailsScreen.routeName,
-                arguments:
-                    ProductDetailsArguments(product: demoProducts[index]),
+          padding:  EdgeInsets.symmetric(horizontal: 16),
+          child:  Column(
+            children : [
+              CardService(),
+              SizedBox(height: 10), 
+              LocationField(),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                   Expanded(
+                    flex: 3,
+                    child: DateField()
+                   ),
+                  SizedBox(width: 10),
+                  Expanded(
+                  flex: 2,
+                    child:TimeField()
+                  ), 
+                ],
+              ), 
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Text('Select the number of visitors '),
+                        Text('Person')
+                      ],
+                    )),
+                  Expanded(
+                    flex: 2,
+                    child: NumericFieldButton()),
+                ],
               ),
-            ),
+            ]
+            
           ),
         ),
       ),

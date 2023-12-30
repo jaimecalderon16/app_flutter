@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../cart/cart_screen.dart';
 import 'icon_btn_with_counter.dart';
 import 'search_field.dart';
 
@@ -14,15 +13,23 @@ class HomeHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Expanded(child: SearchField()),
-          const SizedBox(width: 16),
-          IconBtnWithCounter(
-            svgSrc: "assets/icons/Cart Icon.svg",
-            press: () => Navigator.pushNamed(context, CartScreen.routeName),
+          const Expanded(
+              child: Text(
+                'Hola Jaime',
+                style: TextStyle(
+                  color: Colors.black45,
+                  fontSize: 18.0,  // Tamaño de fuente
+                  fontWeight: FontWeight.bold,  // Peso de la fuente (por ejemplo, bold)
+                  letterSpacing: 1.5,  // Espaciado entre caracteres
+                  // Otros estilos según tus necesidades
+                ),
+                textAlign: TextAlign.center,  // Centrar el texto
+              ),
           ),
-          const SizedBox(width: 8),
+          const Expanded( child: Icon(Icons.ac_unit_sharp)),
+          const SizedBox(width: 16),
+          
           IconBtnWithCounter(
             svgSrc: "assets/icons/Bell.svg",
             numOfitem: 3,
