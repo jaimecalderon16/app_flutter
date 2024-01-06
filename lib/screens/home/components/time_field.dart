@@ -4,15 +4,16 @@ import 'package:intl/intl.dart'; // Importa el paquete intl
 import '../../../constants.dart';
 
 class TimeField extends StatefulWidget {
-  const TimeField({Key? key}) : super(key: key);
+  final List<String?> errors;
+
+  const TimeField({super.key, required this.errors});
 
   @override
   State<TimeField> createState() => _TimeFieldState();
-
 }
 
 class _TimeFieldState extends State<TimeField> {
-  TimeOfDay? selectedTime;
+   TimeOfDay? selectedTime;
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
@@ -24,15 +25,50 @@ class _TimeFieldState extends State<TimeField> {
       setState(() {
         selectedTime = pickedTime;
       });
+
+      if(selectedTime != null){
+        removeError(error: kTimeNullError);
+      }
     }
   }
 
+  void addError({String? error}) {
+      if (!widget.errors.contains(error)) {
+        setState(() {
+          widget.errors.add(error);
+        });
+      }
+    }
+
+  void removeError({String? error}) {
+      if (widget.errors.contains(error)) {
+        setState(() {
+          widget.errors.remove(error);
+        });
+      }
+    }
+
+
+
   @override
   Widget build(BuildContext context) {
-    return Form(
-      child: TextFormField(
+    return TextFormField(
         onTap: () {
           _selectTime(context);
+          
+        },
+        onChanged: (value) {
+          if (value.isNotEmpty) {
+            removeError(error: kTimeNullError);
+          }
+          return;
+        },
+        validator: (value) {
+          if (selectedTime == null) {
+            addError(error: kTimeNullError);  
+          } 
+
+          return null;
         },
         readOnly: true,
         decoration: InputDecoration(
@@ -49,8 +85,7 @@ class _TimeFieldState extends State<TimeField> {
               : "Time",
           prefixIcon: const Icon(Icons.access_time),
         ),
-      ),
-    );
+      );
   }
 }
 

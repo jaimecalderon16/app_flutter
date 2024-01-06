@@ -5,7 +5,9 @@ import '../../../constants.dart';
 
 
 class DateField extends StatefulWidget {
-  const DateField({super.key});
+  final List<String?> errors;
+
+  const DateField({super.key, required this.errors});
 
   @override
   State<DateField> createState() => _DateFieldState();
@@ -15,25 +17,59 @@ class _DateFieldState extends State<DateField> {
    DateTime? selectedDate;
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
+      DateTime now = DateTime.now();
+      DateTime twoWeeksLater = now.add(const Duration(days: 14));
+
+      final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: now,
+        firstDate: now,
+        lastDate: twoWeeksLater,
+      );
+      if (picked != null && picked != selectedDate) {
+        setState(() {
+          selectedDate = picked;
+        });
+        if(selectedDate != null){
+          removeError(error: kDateNullError);
+        }
+      }
   }
+
+  void addError({String? error}) {
+      if (!widget.errors.contains(error)) {
+        setState(() {
+          widget.errors.add(error);
+        });
+      }
+    }
+
+  void removeError({String? error}) {
+      if (widget.errors.contains(error)) {
+        setState(() {
+          widget.errors.remove(error);
+        });
+      }
+    }
 
   @override
    Widget build(BuildContext context) {
-    return Form(
-      child: TextFormField(
+    return TextFormField(
         onTap: () {
           _selectDate(context);
+        },
+        onChanged: (value) {
+          if (value.isNotEmpty) {
+            removeError(error: kDateNullError);
+          }
+          return;
+        },
+        validator: (value) {
+          if (selectedDate == null) {
+            print('entro');
+            addError(error: kDateNullError);
+          }
+          return null;
         },
         readOnly: true,
         decoration: InputDecoration(
@@ -49,8 +85,7 @@ class _DateFieldState extends State<DateField> {
               : "Select a date",
           prefixIcon: const Icon(Icons.calendar_today),
         ),
-      ),
-    );
+      );
   }
 }
 

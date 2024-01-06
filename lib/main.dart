@@ -3,7 +3,7 @@ import 'package:shop_app/screens/splash/splash_screen.dart';
 
 import 'routes.dart';
 import 'theme.dart';
-
+ 
 void main() {
   runApp(const MyApp());
 }
